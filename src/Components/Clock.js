@@ -1,36 +1,46 @@
 
 import React, { Component } from 'react';
-import getClockTime from "./ClockLibrary";
+import PropTypes from 'prop-types';
+import { getClockTime } from "./TimeLibrary";
 
 class Clock extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = getClockTime();
+    }
+
+    static propTypes = {
+        onClose: PropTypes.func
     }
 
     componentDidMount() {
         console.log("Starting clock");
+
         const oneSecond = 1000;
-        this.ticking = setInterval(() => this.setState(getClockTime()), oneSecond);
+        const onTick = () => {
+            this.setState(getClockTime());
+            console.log('Tick');
+        };
+
+        this.ticking = setInterval(onTick, oneSecond);
     }
 
-    componentWillMount() {
-        clearInterval(this.ticking);
+    componentWillUnmount() {
         console.log("Stopping clock");
+        clearInterval(this.ticking);
     }
 
     render() {
-        const { hours, minutes, seconds, timeOfDay} = this.state;
+        const { hours, minutes, seconds, ampm } = this.state;
+        const displayTime = `${hours}:${minutes}:${seconds} ${ampm}`;
+        const divStyle = {
+            margin: 20,
+            fontSize: 24
+        };
 
-        return(
+        return (
             <div>
-                <span>{hours}</span>
-                <span>:</span>
-                <span>{minutes}</span>
-                <span>:</span>
-                <span>{seconds}</span>
-                <span>{timeOfDay}</span>
-
+                <span style={divStyle}>{displayTime}</span>
                 <button onClick={this.props.onClose}>x</button>
             </div>
         );
