@@ -7,7 +7,6 @@ import registerServiceWorker from './registerServiceWorker';
 
 const reactContainer = document.getElementById('reactContainer');
 const onClose = () => unmountComponentAtNode(reactContainer);
-
 ReactDOM.render(<Clock onClose={onClose} />, reactContainer);
 
 registerServiceWorker();

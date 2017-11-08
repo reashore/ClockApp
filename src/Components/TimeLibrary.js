@@ -20,7 +20,7 @@ export const appendAMPM = clockTime =>
         ampm: (clockTime.hours >= 12) ? "pm" : "am"
     })
 
-export const prependZero = key => clockTime =>
+export const padWithZero = key => clockTime =>
     ({
         ...clockTime,
         [key]: (clockTime[key] < 10) ? "0" + clockTime[key] : clockTime[key]
@@ -34,11 +34,11 @@ export const convertToCivilianTime = clockTime =>
         civilianHours
     )(clockTime)
 
-export const doubleDigits = civilianTime =>
+export const padHoursMinutesSeconds = civilianTime =>
     compose(
-        prependZero("hours"),
-        prependZero("minutes"),
-        prependZero("seconds")
+        padWithZero("hours"),
+        padWithZero("minutes"),
+        padWithZero("seconds")
     )(civilianTime)
 
 export const getClockTime = compose(
@@ -46,5 +46,5 @@ export const getClockTime = compose(
     toHoursMinutesSeconds,
     convertToCivilianTime,
     appendAMPM,
-    doubleDigits
+    padHoursMinutesSeconds
 )
