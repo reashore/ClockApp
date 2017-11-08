@@ -1,8 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, {unmountComponentAtNode} from 'react-dom';
 import './index.css';
-import App from './App';
+import Clock from './Components/Clock';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let reactContainer = document.getElementById('reactContainer');
+ReactDOM.render(<Clock onClose={() => unmountComponentAtNode(reactContainer)} />, reactContainer);
+
 registerServiceWorker();
